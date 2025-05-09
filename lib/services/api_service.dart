@@ -13,7 +13,7 @@ class ApiService {
 
       final response = await http.put(
         Uri.parse(baseUrl),
-       headers: {
+        headers: {
           'content-type': 'application/json',
           'X-Enviroment': 'development',
           'cookie':
@@ -51,8 +51,9 @@ class ApiService {
 
           // Try to parse multiple tasks first
           List<Task> tasks = [];
-          if (responseMessage.contains('Your tasks have been created:')||
-              responseMessage.contains('If you’d like to update, delete, or add details to any of these tasks, just let me know!')) {
+          if (responseMessage.contains('Your tasks have been created:') ||
+              responseMessage.contains(
+                  'If you’d like to update, delete, or add details to any of these tasks, just let me know!')) {
             tasks = Task.parseManyFromResponseString(responseMessage);
           }
           // If no multiple tasks found, try single task format
@@ -78,31 +79,4 @@ class ApiService {
       rethrow;
     }
   }
-
-  // Future<List<Task>> sendPrompt(String prompt) async {
-  //   try {
-  //     final response = await http.put(
-  //       Uri.parse(baseUrl),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'X-Enviroment': 'development',
-  //         'cookie':
-  //             'id=bnppbmdhbWJhbmRlIzFVVk46MDcwNDgyM2EtYTcwOS00ZmE4LTk5ZWItMWQ3ODk5NDk4MzJl'
-  //       },
-  //       body: jsonEncode({
-  //         "message": prompt,
-  //         "source": {"id": "1", "deviceId": 1},
-  //       }),
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       final List<dynamic> data = jsonDecode(response.body);
-  //       return data.map((json) => Task.fromJson(json)).toList();
-  //     } else {
-  //       throw Exception('Failed to get response');
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Error connecting to server');
-  //   }
-  // }
 }

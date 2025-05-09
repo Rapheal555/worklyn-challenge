@@ -4,14 +4,12 @@ class Task {
   final String title;
   final String note;
   final DateTime dueDate;
-  final String? url;
   final bool isCompleted;
 
   Task({
     required this.title,
     required this.note,
     required this.dueDate,
-    this.url,
     this.isCompleted = false,
   });
 
@@ -19,14 +17,12 @@ class Task {
     String? title,
     String? note,
     DateTime? dueDate,
-    String? url,
     bool? isCompleted,
   }) {
     return Task(
       title: title ?? this.title,
       note: note ?? this.note,
       dueDate: dueDate ?? this.dueDate,
-      url: url ?? this.url,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }
@@ -37,7 +33,6 @@ class Task {
       note: json['note'] ?? '',
       dueDate:
           DateTime.parse(json['dueDate'] ?? DateTime.now().toIso8601String()),
-      url: json['url'],
       isCompleted: json['isCompleted'] ?? false,
     );
   }
@@ -46,7 +41,6 @@ class Task {
     String title = '';
     String note = '';
     DateTime? dueDate;
-    String? url;
 
     final lines = response.split('\n');
     for (final line in lines) {
@@ -60,26 +54,19 @@ class Task {
           final dateFormat = DateFormat("MMMM d, yyyy, 'at' h:mm a");
           dueDate = dateFormat.parse(dateStr);
         } catch (e) {
-          print('Error parsing date: $e');
-          print('Date string was: $dateStr');
           dueDate = DateTime.now();
         }
-      } else if (line.contains('https://')) {
-        url = line.substring(line.indexOf('https://')).trim();
       }
     }
 
-    print('Parsed task: title=$title, note=$note, dueDate=$dueDate, url=$url');
-
     if (title.isEmpty) {
-      throw FormatException('No task title found in response');
+      throw const FormatException('No task title found in response');
     }
 
     return Task(
       title: title,
       note: note,
       dueDate: dueDate ?? DateTime.now(),
-      url: url,
       isCompleted: false,
     );
   }
@@ -98,7 +85,6 @@ class Task {
         String title = '';
         String note = '';
         DateTime? dueDate;
-        String? url;
 
         final lines = block.split('\n');
         for (final line in lines) {
@@ -112,8 +98,6 @@ class Task {
               final dateFormat = DateFormat("MMMM d, yyyy, 'at' h:mm a");
               dueDate = dateFormat.parse(dateStr);
             } catch (e) {
-              print('Error parsing date: $e');
-              print('Date string was: $dateStr');
               dueDate = DateTime.now();
             }
           }
@@ -124,22 +108,12 @@ class Task {
             title: title,
             note: note,
             dueDate: dueDate ?? DateTime.now(),
-            url: url,
             isCompleted: false,
           ));
         }
       } catch (e) {
-        print('Error parsing task block: $e');
         continue;
       }
-    }
-
-    // Extract URL from the last part of the message if present
-    final urlMatch = RegExp(r'https://[^\s\n]+').firstMatch(response);
-    if (urlMatch != null && tasks.isNotEmpty) {
-      final url = urlMatch.group(0);
-      // Add URL to all tasks
-      tasks = tasks.map((task) => task.copyWith(url: url)).toList();
     }
 
     return tasks;

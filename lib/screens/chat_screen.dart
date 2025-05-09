@@ -127,11 +127,13 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chat' , style: TextStyle(fontWeight: FontWeight.w600 ),),
-        backgroundColor: Color(0xFFFFFFFF),
-        
+        title: const Text(
+          'Chat',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
+        backgroundColor: const Color(0xFFFFFFFF),
       ),
-      backgroundColor: Color(0xFFFFFFFF),
+      backgroundColor: const Color(0xFFFFFFFF),
       body: IndexedStack(
         index: _selectedIndex,
         children: [

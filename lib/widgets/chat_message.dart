@@ -16,10 +16,9 @@ class ChatMessage extends StatelessWidget {
   });
 
   List<Task> _parseTasksFromMessage(String text) {
-    if (text.contains('Your tasks have been created:')||
-        text.contains('If you’d like to update, delete, or add details to any of these tasks, just let me know!') 
-        
-      ) {
+    if (text.contains('Your tasks have been created:') ||
+        text.contains(
+            'If you’d like to update, delete, or add details to any of these tasks, just let me know!')) {
       return Task.parseManyFromResponseString(text);
     } else if (text.contains('Task:') &&
         text.contains('Note:') &&
@@ -27,7 +26,6 @@ class ChatMessage extends StatelessWidget {
       try {
         return [Task.fromResponseString(text)];
       } catch (e) {
-        print('Error parsing single task: $e');
         return [];
       }
     }
@@ -46,17 +44,10 @@ class ChatMessage extends StatelessWidget {
         decoration: BoxDecoration(
           color: message.isUser
               ? Theme.of(context).primaryColor
-              : tasks.isNotEmpty?Colors.white : Colors.grey.shade100,
+              : tasks.isNotEmpty
+                  ? Colors.white
+                  : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(16),
-          // boxShadow: [
-            // if (!message.isUser)
-            //   BoxShadow(
-            //     color: Colors.grey.withOpacity(0.1),
-            //     spreadRadius: 1,
-            //     blurRadius: 3,
-            //     offset: const Offset(0, 1),
-            //   ),
-          // ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

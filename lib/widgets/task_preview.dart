@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/task.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TaskPreview extends StatelessWidget {
   final Task task;
@@ -72,7 +71,6 @@ class TaskPreview extends StatelessWidget {
                       if (onTaskUpdated != null) {
                         onTaskUpdated!(
                             task.copyWith(isCompleted: value ?? false));
-                        // Navigator.pop(context);
                       }
                     },
                     shape: RoundedRectangleBorder(
@@ -131,31 +129,11 @@ class TaskPreview extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            // if (task.url != null)
-            //   TextButton(
-            //     onPressed: () => _launchUrl(task.url!),
-            //     style: TextButton.styleFrom(
-            //       padding: const EdgeInsets.all(16),
-            //     ),
-            //     child: const Row(
-            //       children: [
-            //         Icon(Icons.link),
-            //         SizedBox(width: 8),
-            //         Text('View in browser'),
-            //       ],
-            //     ),
-            //   ),
             SizedBox(height: MediaQuery.of(context).viewPadding.bottom + 250),
           ],
         ),
       ),
     );
-  }
-
-  Future<void> _launchUrl(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    }
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -193,15 +171,6 @@ class TaskPreview extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        // border: Border.all(color: Colors.grey.shade300),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.grey.withOpacity(0.1),
-        //     spreadRadius: 1,
-        //     blurRadius: 3,
-        //     offset: const Offset(0, 1),
-        //   ),
-        // ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,14 +210,6 @@ class TaskPreview extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8, left: 32),
             child: Row(
               children: [
-                // Container(
-                //   padding:
-                //       const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                //   decoration: BoxDecoration(
-                //     // color: Colors.grey.shade100,
-                //     borderRadius: BorderRadius.circular(4),
-                //   ),
-                //   child:
                 Icon(Icons.calendar_month, size: 14, color: Colors.green[600]),
                 const SizedBox(width: 4),
                 Text(
@@ -261,7 +222,6 @@ class TaskPreview extends StatelessWidget {
                     fontSize: 12,
                   ),
                 ),
-                // ),
                 const SizedBox(width: 8),
                 Icon(Icons.access_time, size: 14, color: Colors.blue[600]),
                 const SizedBox(width: 4),
